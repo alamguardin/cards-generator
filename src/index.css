@@ -122,14 +122,16 @@ button {
 }
 
 .card-name {
-    top: 42px;
+    width: max-content;
+    top: 43px;
     padding: 0;
     margin: 0;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .card-keywords {
+    width: max-content;
     bottom: 136px;
     font-size: 14px;
 }
@@ -142,6 +144,7 @@ button {
 }
 
 .card-footer {
+    width: max-content;
     bottom: 25px;
 }
 
