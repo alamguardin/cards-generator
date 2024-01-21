@@ -168,6 +168,14 @@ button {
     font-family: 'Times New Roman', Times, serif;
 }
 
+.card-movements {
+    position: absolute;
+    top: 86px;
+    left: 32px;
+    display: flex;
+    flex-direction: column;
+}
+
 .card-avatar {
     position: absolute;
     top: 48px;

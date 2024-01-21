@@ -39,6 +39,7 @@ function App() {
   const [ life, setLife ] = useState(0)
   const [ manna, setManna ] = useState(0)
   const [ rarity, setRarity ] = useState('white')
+  const [ movements, setMovements ] = useState(0)
 
   async function setCard() {
     const data = {
@@ -126,6 +127,12 @@ function App() {
             value={rarity}
           ></SelectInput>
           <NumberInput 
+            label='Movimientos'
+            value={movements}
+            increase={() => setMovements(movements + 1)}
+            decrease={() => setMovements(movements - 1)}
+          ></NumberInput>
+          <NumberInput 
             label='Mana' 
             value={manna} 
             increase={() => setManna(manna + 1)}
@@ -158,6 +165,7 @@ function App() {
             keywords={keywords}
             effect={effect}
             footer={footer}
+            movements={movements}
           ></Card>
           <button onClick={handleDownload} className="download-button">
             <Download></Download>
