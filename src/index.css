@@ -107,6 +107,13 @@ button {
     height: 523px;
 }
 
+.card-rarity {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .card-name, .card-keywords, .card-effect, .card-footer {
     position: absolute;
     left: 50%;
@@ -131,6 +138,7 @@ button {
     top: 400px;
     text-align: center;
     max-width: 250px;
+    font-size: 12px;
 }
 
 .card-footer {

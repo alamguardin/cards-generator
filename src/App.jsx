@@ -22,6 +22,15 @@ const rarityOptions = [
   {label: 'Azul', value: 'blue'},
 ]
 
+const classOptions = [
+  {label: 'Blanco', value: 'white'},
+  {label: 'Rojo', value: 'red'},
+  {label: 'Morado', value: 'purple'},
+  {label: 'Dorado', value: 'gold'},
+  {label: 'Verde', value: 'green'},
+  {label: 'Azul', value: 'blue'},
+]
+
 const typeCardOptions =  [
   {label: 'Unidad', value: 'unit'},
   {label: 'Hechizo', value: 'spell'},
@@ -40,6 +49,7 @@ function App() {
   const [ life, setLife ] = useState(0)
   const [ manna, setManna ] = useState(0)
   const [ rarity, setRarity ] = useState('white')
+  const [ classCard, setClassCard] = useState('white')
   const [ movements, setMovements ] = useState(0)
 
   async function setCard() {
@@ -126,6 +136,12 @@ function App() {
           ></FileInput>
           <SelectInput 
             label="Clase" 
+            options={classOptions}
+            onChange={(e) => setClassCard(e.target.value)}
+            value={classCard}
+          ></SelectInput>
+          <SelectInput
+            label='Rareza'
             options={rarityOptions}
             onChange={(e) => setRarity(e.target.value)}
             value={rarity}
@@ -160,6 +176,7 @@ function App() {
         <div className="preview">
           <Card 
             type={type}
+            classCard={classCard}
             rarity={rarity}
             name={name}
             image={urlFile}
