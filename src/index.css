@@ -107,16 +107,33 @@ button {
     height: 523px;
 }
 
-.card-name {
+.card-name, .card-keywords, .card-effect, .card-footer {
     position: absolute;
-    top: 38px;
     left: 50%;
     transform: translateX(-50%);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.card-name {
+    top: 42px;
     padding: 0;
     margin: 0;
     font-size: 18px;
     font-weight: bold;
-    font-family: 'Times New Roman', Times, serif;
+}
+
+.card-keywords {
+    bottom: 136px;
+    font-size: 14px;
+}
+
+.card-effect {
+    top: 400px;
+    text-align: center;
+}
+
+.card-footer {
+    bottom: 25px;
 }
 
 .card-manna, .card-attack, .card-life {

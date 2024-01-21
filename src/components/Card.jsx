@@ -23,6 +23,9 @@ function Card({type, rarity, name, image, manna, attack, life}) {
         <div className='card'>
             <img src={raritys[rarity]} alt="" className='card-front'/>
             <p className='card-name'>{name}</p>
+            <p className='card-keywords'>TROP</p>
+            <p className='card-effect'>Lorem ipsum dolor sit amet frf frfwgfw fdwfwe rgerge ferf fr</p>
+            <p className='card-footer'>Hechizo Lento</p>
             <div className='card-manna'>
                 <img src={IcScore} alt="" width="62"/>
                 <p>{manna}</p>
