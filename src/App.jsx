@@ -21,7 +21,14 @@ const rarityOptions = [
   {label: 'Azul', value: 'blue'},
 ]
 
+const typeCardOptions =  [
+  {label: 'Unidad', value: 'unit'},
+  {label: 'Hechizo', value: 'spell'},
+  {label: 'Estructura', value: 'structure'}
+]
+
 function App() {
+  const [ type, setType ] = useState('unit')
   const [ name, setName ] = useState('')
   const [ file, setFile ] = useState(null)
   const [ urlFile, setUrlFile ] = useState(null)
@@ -94,6 +101,12 @@ function App() {
       <div className="container">
         <div className="form">
           <h1 className="title">Crear nueva carta</h1>
+          <SelectInput
+            label="Tipo"
+            options={typeCardOptions}
+            onChange={(e) =>  setType(e.target.value)}
+            value={type}
+          ></SelectInput>
           <TextInput label="Nombre" onChange={(e) => setName(e.target.value)}></TextInput>
           <FileInput 
             nameFile={ file ? file.name : 'Sin Seleccionar' }
@@ -101,7 +114,7 @@ function App() {
             onClick={handleUploadFile}
           ></FileInput>
           <SelectInput 
-            label="Rarity" 
+            label="Clase" 
             options={rarityOptions}
             onChange={(e) => setRarity(e.target.value)}
             value={rarity}
@@ -129,6 +142,7 @@ function App() {
         </div>
         <div className="preview">
           <Card 
+            type={type}
             rarity={rarity}
             name={name}
             image={urlFile}

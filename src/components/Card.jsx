@@ -18,7 +18,7 @@ const raritys = {
     gold: RarityGold
 }
 
-function Card({rarity, name, image, manna, attack, life}) {
+function Card({type, rarity, name, image, manna, attack, life}) {
     return (
         <div className='card'>
             <img src={raritys[rarity]} alt="" className='card-front'/>
@@ -27,14 +27,18 @@ function Card({rarity, name, image, manna, attack, life}) {
                 <img src={IcScore} alt="" width="62"/>
                 <p>{manna}</p>
             </div>
+            { type === 'unit' &&
             <div className='card-attack'>
                 <img src={IcAttack} alt="" width="62"/>
                 <p>{attack}</p>
             </div>
+            }
+            { type !== 'spell' &&
             <div className='card-life'>
                 <img src={IcHealth} alt="" width="62"/>
                 <p>{life}</p>
             </div>
+            }
             <div className='card-avatar'>
                 <img src={image} alt="" />
             </div>
