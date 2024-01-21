@@ -130,6 +130,7 @@ button {
 .card-effect {
     top: 400px;
     text-align: center;
+    max-width: 250px;
 }
 
 .card-footer {

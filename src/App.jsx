@@ -30,6 +30,9 @@ const typeCardOptions =  [
 function App() {
   const [ type, setType ] = useState('unit')
   const [ name, setName ] = useState('')
+  const [ keywords, setKeywords ] = useState('')
+  const [ effect, setEffect ] = useState('')
+  const [ footer, setFooter ] = useState('')
   const [ file, setFile ] = useState(null)
   const [ urlFile, setUrlFile ] = useState(null)
   const [ attack, setAttack] = useState (0)
@@ -108,6 +111,9 @@ function App() {
             value={type}
           ></SelectInput>
           <TextInput label="Nombre" onChange={(e) => setName(e.target.value)}></TextInput>
+          <TextInput label="Palabras clave" onChange={(e) => setKeywords(e.target.value)}></TextInput>
+          <TextInput label="Efecto" onChange={(e) => setEffect(e.target.value)}></TextInput>
+          <TextInput label="Pie de carta" onChange={(e) => setFooter(e.target.value)}></TextInput>
           <FileInput 
             nameFile={ file ? file.name : 'Sin Seleccionar' }
             onChange={(e) => setFile(e.target.files[0])}
@@ -149,6 +155,9 @@ function App() {
             manna={manna}
             attack={attack}
             life={life}
+            keywords={keywords}
+            effect={effect}
+            footer={footer}
           ></Card>
           <button onClick={handleDownload} className="download-button">
             <Download></Download>

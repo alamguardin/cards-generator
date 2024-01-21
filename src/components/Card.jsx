@@ -18,14 +18,14 @@ const raritys = {
     gold: RarityGold
 }
 
-function Card({type, rarity, name, image, manna, attack, life}) {
+function Card({type, rarity, name, image, manna, attack, life, keywords, effect, footer}) {
     return (
         <div className='card'>
             <img src={raritys[rarity]} alt="" className='card-front'/>
             <p className='card-name'>{name}</p>
-            <p className='card-keywords'>TROP</p>
-            <p className='card-effect'>Lorem ipsum dolor sit amet frf frfwgfw fdwfwe rgerge ferf fr</p>
-            <p className='card-footer'>Hechizo Lento</p>
+            <p className='card-keywords'>{keywords}</p>
+            <p className='card-effect'>{effect}</p>
+            <p className='card-footer'>{footer}</p>
             <div className='card-manna'>
                 <img src={IcScore} alt="" width="62"/>
                 <p>{manna}</p>
