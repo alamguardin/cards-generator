@@ -8,6 +8,7 @@ import FileInput from './components/FileInput'
 import SelectInput from './components/SelectInput'
 import { Download } from './components/Icons'
 import download from 'downloadjs';
+import TextareaInput from './components/TextareaInput';
 
 const API_KEY = import.meta.env.VITE_API_KEY
 const AUTHORIZATION = import.meta.env.VITE_AUTHORIZATION
@@ -113,7 +114,10 @@ function App() {
           ></SelectInput>
           <TextInput label="Nombre" onChange={(e) => setName(e.target.value)}></TextInput>
           <TextInput label="Palabras clave" onChange={(e) => setKeywords(e.target.value)}></TextInput>
-          <TextInput label="Efecto" onChange={(e) => setEffect(e.target.value)}></TextInput>
+          <TextareaInput 
+            label='Efecto'
+            onChange={(e) => setEffect(e.target.value)}
+          ></TextareaInput>
           <TextInput label="Pie de carta" onChange={(e) => setFooter(e.target.value)}></TextInput>
           <FileInput 
             nameFile={ file ? file.name : 'Sin Seleccionar' }

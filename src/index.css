@@ -53,7 +53,7 @@ img {
     max-width: 100%;
 }
 
-input, button, select {
+input, button, select, textarea {
     font-family: system-ui, 'Segoe UI', 'Open Sans', sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
@@ -69,7 +69,7 @@ button:active {
     transform: scale(0.9);
 }
 
-input[type="text"], select {
+input[type="text"], select, textarea {
     padding: 1rem 1.125rem;
     background-color: var(--black);
     border: 1px solid var(--gray);
@@ -77,7 +77,7 @@ input[type="text"], select {
     border-radius: 0.5rem;
 }
 
-input[type="text"]:focus, select:focus {
+input[type="text"]:focus, select:focus, textarea:focus {
     border-color: var(--white);
 }
 

@@ -49,7 +49,7 @@ function Card({type, rarity, name, image, manna, attack, life, keywords, effect,
             <img src={raritys[rarity]} alt="" className='card-front'/>
             <p className='card-name'>{name}</p>
             <p className='card-keywords'>{keywords}</p>
-            <p className='card-effect'>{effect}</p>
+            <pre><p className='card-effect'>{effect}</p></pre>
             <p className='card-footer'>{footer}</p>
             <div className='card-movements'>
                 {addMovements(movements)}
