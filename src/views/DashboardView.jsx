@@ -13,14 +13,49 @@ function DashboardView() {
                 }
             })
             const cards = await response.json()
-            setData(cards)
+
+            let dataSet = []
+            let newSet = []
+
+            cards?.forEach((card, index) => {
+                if (newSet.length < 25) {
+                    newSet.push(card)
+                }
+                  
+                if(newSet.length === 25) {
+                    dataSet.push(newSet)
+                    newSet = []
+                }
+                  
+                if(newSet.length >= 1 && cards.length - 1 === index) {
+                    dataSet.push(newSet)
+                    newSet = []
+                }
+            });
+
+            setData(dataSet)
         }
         getData()
     }, [])
 
     return (
         <div className="container">
-            
+            {
+                data?.map((arr, index) => {
+                    return (
+                    <div key={index}>
+                        <h1>Colección #{index + 1}</h1>
+                        {
+                            arr?.map((card, index) => {
+                                return (
+                                    <p key={index}>{card.name}</p>
+                                )
+                            })
+                        }
+                    </div>
+                    )
+                })
+            }
         </div>
     )
 }
