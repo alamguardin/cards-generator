@@ -9,9 +9,12 @@ import SelectInput from '../components/SelectInput'
 import { Download } from '../components/Icons'
 import download from 'downloadjs';
 import TextareaInput from '../components/TextareaInput';
+import { createClient } from '@supabase/supabase-js'
 
 const API_KEY = import.meta.env.VITE_API_KEY
 const AUTHORIZATION = import.meta.env.VITE_AUTHORIZATION
+
+const supabase = createClient('https://gbxzbehqxjynwohsrvsm.supabase.co', API_KEY)
 
 const rarityOptions = [
   {label: 'Blanco', value: 'white'},
@@ -52,6 +55,18 @@ function FormView() {
   const [ classCard, setClassCard] = useState('white')
   const [ movements, setMovements ] = useState(0)
 
+  async function uploadImage() {
+      const { data, error } = await supabase
+        .storage
+        .from('cards')
+        .upload('public/node.png', file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+      console.log(data)
+      console.log(error)
+  }
+
   async function setCard() {
     const data = {
       name,
@@ -73,6 +88,7 @@ function FormView() {
     })
     console.log(API_KEY)
     console.log(AUTHORIZATION)
+    uploadImage()
     toast.success('Tarjeta creada satisfactoriamente.')
     const dat = await response.json()
     console.log(dat)
