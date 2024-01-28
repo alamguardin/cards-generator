@@ -54,12 +54,13 @@ function FormView() {
   const [ rarity, setRarity ] = useState('white')
   const [ classCard, setClassCard] = useState('white')
   const [ movements, setMovements ] = useState(0)
+  const [ imageReference, setImageReference ] = useState('')
 
   async function uploadImage() {
       const { data, error } = await supabase
         .storage
         .from('cards')
-        .upload('public/node'+ Date.now() +'.png', file, {
+        .upload('public/' + imageReference, file, {
           cacheControl: '3600',
           upsert: false
         })
@@ -69,11 +70,18 @@ function FormView() {
 
   async function setCard() {
     const data = {
-      name,
-      rarity,
-      manna,
-      attack,
-      life
+      type: type,
+      name: name,
+      keywords: keywords,
+      effect: effect,
+      footer: footer,
+      class: classCard,
+      rarity: rarity,
+      manna: manna,
+      attack: attack,
+      life: life,
+      movements: movements,
+      image: imageReference
     }
     const response = await fetch('https://gbxzbehqxjynwohsrvsm.supabase.co/rest/v1/cards-data', {
       method: "POST",
@@ -110,7 +118,8 @@ function FormView() {
 
     reader.onload = ((e) => setUrlFile(e.target.result))
     reader.readAsDataURL(file);
-
+    const fileName = 'node'+ Date.now() +'.png'
+    setImageReference(fileName)
   }
 
   return (

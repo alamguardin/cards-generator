@@ -20,7 +20,7 @@ function DashboardView() {
 
     return (
         <div className="container">
-
+            
         </div>
     )
 }
