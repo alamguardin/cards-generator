@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Card from "../components/Card"
 
 
 function DashboardView() {
@@ -45,13 +46,31 @@ function DashboardView() {
                     return (
                     <div key={index}>
                         <h1>Colección #{index + 1}</h1>
-                        {
-                            arr?.map((card, index) => {
-                                return (
-                                    <p key={index}>{card.name}</p>
-                                )
-                            })
-                        }
+                        <label htmlFor={index}>Open / Close</label>
+                        <input type="checkbox" id={index}/>
+                        <div>
+                            {
+                                arr?.map((card) => {
+                                    return (
+                                        <Card
+                                            key={card.id}
+                                            type={card.type}
+                                            classCard={card.class}
+                                            rarity={card.rarity}
+                                            name={card.name}
+                                            image={card.urlFile}
+                                            manna={card.manna}
+                                            attack={card.attack}
+                                            life={card.life}
+                                            keywords={card.keywords}
+                                            effect={card.effect}
+                                            footer={card.footer}
+                                            movements={card.movements}
+                                        ></Card>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                     )
                 })
