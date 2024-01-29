@@ -43,6 +43,9 @@ function FormView() {
   const [ file, setFile ] = useState(null)
   const [ urlFile, setUrlFile ] = useState(null)
 
+  /**
+   * Save an image in supabase storage
+   */
   async function saveImageInStorage() {
       const { data, error } = await supabase
         .storage
@@ -55,7 +58,11 @@ function FormView() {
       console.log(error)
   }
 
-  async function setCard() {
+  /**
+   * Save all information card in supabase table
+   */
+  async function saveDataInDB() {
+    // this is the object to save in DB
     const data = {
       type: type,
       name: name,
@@ -70,6 +77,7 @@ function FormView() {
       movements: movements,
       image: imageReference
     }
+
     const response = await fetch(SUPABASE_POST_URL, {
       method: "POST",
       mode: "cors",
@@ -81,12 +89,16 @@ function FormView() {
       },
       body: JSON.stringify(data)
     })
+
     saveImageInStorage()
     toast.success('Tarjeta creada satisfactoriamente.')
     const dat = await response.json()
     console.log(dat)
   }
 
+  /**
+   * Convert a node to png and download
+   */
   function handleDownload() {
     const node = document.querySelector('.preview .card')
 
@@ -96,6 +108,10 @@ function FormView() {
       });
   }
 
+  /**
+   * Read a file type object for preview
+   * @param {node} e this is element
+   */
   function handleUploadFile(e) {
     e.preventDefault()
 
@@ -167,7 +183,7 @@ function FormView() {
             decrease={() => setLife(life - 1)}
           ></NumberInput>
           <Toaster position="top-center"></Toaster>
-          <button onClick={setCard}>Crear tarjeta</button>
+          <button onClick={saveDataInDB}>Crear tarjeta</button>
         </div>
         <div className="preview">
           <Card 
