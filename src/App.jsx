@@ -5,8 +5,8 @@ function App() {
   
   return (
     <div>
-      {/* <FormView></FormView> */}
-      <DashboardView></DashboardView>
+      <FormView></FormView>
+      {/* <DashboardView></DashboardView> */}
     </div>
   )
 }

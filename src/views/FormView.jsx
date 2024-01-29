@@ -1,53 +1,37 @@
-import * as htmlToImage from 'html-to-image';
-import { Toaster, toast } from 'sonner'
+// import core Packages
 import { useState } from 'react'
+// import third party
+import { createClient } from '@supabase/supabase-js'
+import * as htmlToImage from 'html-to-image';
+import download from 'downloadjs';
+import { Toaster, toast } from 'sonner'
+// import components
 import NumberInput from '../components/NumberInput'
 import Card from '../components/Card'
 import TextInput from '../components/TextInput'
 import FileInput from '../components/FileInput'
 import SelectInput from '../components/SelectInput'
-import { Download } from '../components/Icons'
-import download from 'downloadjs';
 import TextareaInput from '../components/TextareaInput';
-import { createClient } from '@supabase/supabase-js'
+// import assets
+import { Download } from '../components/Icons'
+// import const
+import { RARITY_AND_CLASS_OPTIONS, TYPE_CARD_OPTIONS } from '../utils/const';
 
 const API_KEY = import.meta.env.VITE_API_KEY
 const AUTHORIZATION = import.meta.env.VITE_AUTHORIZATION
+const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
+const SUPABASE_POST_URL = import.meta.env.VITE_SUPABASE_POST
 
-const supabase = createClient('https://gbxzbehqxjynwohsrvsm.supabase.co', API_KEY)
-
-const rarityOptions = [
-  {label: 'Blanco', value: 'white'},
-  {label: 'Rojo', value: 'red'},
-  {label: 'Morado', value: 'purple'},
-  {label: 'Dorado', value: 'gold'},
-  {label: 'Verde', value: 'green'},
-  {label: 'Azul', value: 'blue'},
-]
-
-const classOptions = [
-  {label: 'Blanco', value: 'white'},
-  {label: 'Rojo', value: 'red'},
-  {label: 'Morado', value: 'purple'},
-  {label: 'Dorado', value: 'gold'},
-  {label: 'Verde', value: 'green'},
-  {label: 'Azul', value: 'blue'},
-]
-
-const typeCardOptions =  [
-  {label: 'Unidad', value: 'unit'},
-  {label: 'Hechizo', value: 'spell'},
-  {label: 'Estructura', value: 'structure'}
-]
+// Create supabase client for upload files
+const supabase = createClient(SUPABASE_CLIENT, API_KEY)
 
 function FormView() {
+  // Card Items state
   const [ type, setType ] = useState('unit')
   const [ name, setName ] = useState('')
   const [ keywords, setKeywords ] = useState('')
   const [ effect, setEffect ] = useState('')
   const [ footer, setFooter ] = useState('')
-  const [ file, setFile ] = useState(null)
-  const [ urlFile, setUrlFile ] = useState(null)
   const [ attack, setAttack] = useState (0)
   const [ life, setLife ] = useState(0)
   const [ manna, setManna ] = useState(0)
@@ -55,8 +39,11 @@ function FormView() {
   const [ classCard, setClassCard] = useState('white')
   const [ movements, setMovements ] = useState(0)
   const [ imageReference, setImageReference ] = useState('')
+  // Storage Items state
+  const [ file, setFile ] = useState(null)
+  const [ urlFile, setUrlFile ] = useState(null)
 
-  async function uploadImage() {
+  async function saveImageInStorage() {
       const { data, error } = await supabase
         .storage
         .from('cards')
@@ -83,7 +70,7 @@ function FormView() {
       movements: movements,
       image: imageReference
     }
-    const response = await fetch('https://gbxzbehqxjynwohsrvsm.supabase.co/rest/v1/cards-data', {
+    const response = await fetch(SUPABASE_POST_URL, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -94,9 +81,7 @@ function FormView() {
       },
       body: JSON.stringify(data)
     })
-    console.log(API_KEY)
-    console.log(AUTHORIZATION)
-    uploadImage()
+    saveImageInStorage()
     toast.success('Tarjeta creada satisfactoriamente.')
     const dat = await response.json()
     console.log(dat)
@@ -129,7 +114,7 @@ function FormView() {
           <h1 className="title">Crear nueva carta</h1>
           <SelectInput
             label="Tipo"
-            options={typeCardOptions}
+            options={TYPE_CARD_OPTIONS}
             onChange={(e) =>  setType(e.target.value)}
             value={type}
           ></SelectInput>
@@ -147,13 +132,13 @@ function FormView() {
           ></FileInput>
           <SelectInput 
             label="Clase" 
-            options={classOptions}
+            options={RARITY_AND_CLASS_OPTIONS}
             onChange={(e) => setClassCard(e.target.value)}
             value={classCard}
           ></SelectInput>
           <SelectInput
             label='Rareza'
-            options={rarityOptions}
+            options={RARITY_AND_CLASS_OPTIONS}
             onChange={(e) => setRarity(e.target.value)}
             value={rarity}
           ></SelectInput>
