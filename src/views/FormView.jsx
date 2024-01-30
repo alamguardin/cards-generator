@@ -42,6 +42,7 @@ function FormView() {
   // Storage Items state
   const [ file, setFile ] = useState(null)
   const [ urlFile, setUrlFile ] = useState(null)
+  const [ previewCard, setPreviewCard ] = useState(null)
 
   /**
    * Save an image in supabase storage
@@ -50,12 +51,25 @@ function FormView() {
       const { data, error } = await supabase
         .storage
         .from('cards')
-        .upload('public/' + imageReference, file, {
+        .upload('public/' + imageReference, previewCard, {
           cacheControl: '3600',
           upsert: false
         })
       console.log(data)
       console.log(error)
+  }
+
+  function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[arr.length - 1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    const filePreview = new File([u8arr], filename, { type: mime });
+    setPreviewCard(filePreview)
   }
 
   /**
@@ -104,6 +118,8 @@ function FormView() {
 
     htmlToImage.toPng(node)
       .then(function (dataUrl) {
+        console.log(typeof dataUrl)
+        dataURLtoFile(dataUrl, imageReference)
         download(dataUrl, 'my-node.png')
       });
   }

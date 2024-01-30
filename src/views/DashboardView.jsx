@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react"
 import Card from "../components/Card"
+import PreviewCard from "../components/PreviewCard"
+// import { createClient } from '@supabase/supabase-js'
 
+// const API_KEY = import.meta.env.VITE_API_KEY
+// const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
+
+// const supabase = createClient(SUPABASE_CLIENT, API_KEY)
+
+// const publicUrl = supabase.storage.from('cards').getPublicUrl('public/node1706481747202.png')
+
+// console.log(publicUrl)
 
 function DashboardView() {
     const [ data, setData ] = useState(null)
@@ -40,15 +50,15 @@ function DashboardView() {
     }, [])
 
     return (
-        <div className="container">
+        <div className="dashboard">
             {
                 data?.map((arr, index) => {
                     return (
-                    <div key={index}>
-                        <h1>Colección #{index + 1}</h1>
-                        <label htmlFor={index}>Open / Close</label>
-                        <input type="checkbox" id={index}/>
-                        <div>
+                    <div key={index} className="collection">
+                        <h1 className="collection-title">Colección #{index + 1}</h1>
+                        <label htmlFor={index} className="collection-label">Open / Close</label>
+                        <input type="checkbox" id={index} className="collection-input"/>
+                        <div className="collection-cards">
                             {
                                 arr?.map((card) => {
                                     return (

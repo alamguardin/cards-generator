@@ -25,6 +25,21 @@
     justify-content: space-around;
 }
 
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.collection-cards {
+    white-space: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, );
+}
+
+/* .collection-cards .card {
+    transform: scale(0.8);
+} */
+
 .form {
     width: 50%;
     padding-right: 24px;
