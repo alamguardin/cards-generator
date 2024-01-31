@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react"
-import Card from "../components/Card"
-import PreviewCard from "../components/PreviewCard"
-// import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
-// const API_KEY = import.meta.env.VITE_API_KEY
-// const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
+const API_KEY = import.meta.env.VITE_API_KEY
+const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
 
-// const supabase = createClient(SUPABASE_CLIENT, API_KEY)
+const supabase = createClient(SUPABASE_CLIENT, API_KEY)
 
-// const publicUrl = supabase.storage.from('cards').getPublicUrl('public/node1706481747202.png')
-
-// console.log(publicUrl)
 
 function DashboardView() {
     const [ data, setData ] = useState(null)
+    const [ urls, setUrls ] = useState(null)
+
+    function getUrlImagesFromStorage(arr) {
+        let urlsImages = {}
+        for(let i = 0; i < arr.length; i++) {
+           const imgUrl = supabase.storage.from('cards').getPublicUrl(`public/${arr[i]}`)
+           urlsImages[arr[i]] = imgUrl.data.publicUrl
+        }
+        console.log(urlsImages)
+        setUrls(urlsImages)
+    }
 
     useEffect(() => {
         async function getData() {
@@ -24,6 +30,9 @@ function DashboardView() {
                 }
             })
             const cards = await response.json()
+
+            const imgReferences = cards.map((card) => card.image)
+            getUrlImagesFromStorage(imgReferences)
 
             let dataSet = []
             let newSet = []
@@ -62,21 +71,9 @@ function DashboardView() {
                             {
                                 arr?.map((card) => {
                                     return (
-                                        <Card
-                                            key={card.id}
-                                            type={card.type}
-                                            classCard={card.class}
-                                            rarity={card.rarity}
-                                            name={card.name}
-                                            image={card.urlFile}
-                                            manna={card.manna}
-                                            attack={card.attack}
-                                            life={card.life}
-                                            keywords={card.keywords}
-                                            effect={card.effect}
-                                            footer={card.footer}
-                                            movements={card.movements}
-                                        ></Card>
+                                        <div key={card.id}>
+                                            <img src={urls[card.image]} alt="" />
+                                        </div>                                        
                                     )
                                 })
                             }
