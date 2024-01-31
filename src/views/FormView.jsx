@@ -57,7 +57,7 @@ function FormView() {
         })
       console.log(data)
       console.log(error)
-  }
+  } 
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
@@ -76,6 +76,17 @@ function FormView() {
    * Save all information card in supabase table
    */
   async function saveDataInDB() {
+    const node = document.querySelector('.preview .card')
+
+    htmlToImage.toPng(node)
+      .then(function (dataUrl) {
+        dataURLtoFile(dataUrl, imageReference)
+      });
+
+    setTimeout(() => {
+      console.log('Waitting')
+    }, 3000);
+    
     // this is the object to save in DB
     const data = {
       type: type,
@@ -103,9 +114,8 @@ function FormView() {
       },
       body: JSON.stringify(data)
     })
-
-    saveImageInStorage()
     toast.success('Tarjeta creada satisfactoriamente.')
+    saveImageInStorage()
     const dat = await response.json()
     console.log(dat)
   }
@@ -118,8 +128,6 @@ function FormView() {
 
     htmlToImage.toPng(node)
       .then(function (dataUrl) {
-        console.log(typeof dataUrl)
-        dataURLtoFile(dataUrl, imageReference)
         download(dataUrl, 'my-node.png')
       });
   }
