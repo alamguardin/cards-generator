@@ -1,61 +1,42 @@
 import { useState, useEffect } from "react"
-import { createClient } from '@supabase/supabase-js'
-
-const API_KEY = import.meta.env.VITE_API_KEY
-const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
-
-const supabase = createClient(SUPABASE_CLIENT, API_KEY)
-
+import { getDataFromDB, getUrlImagesFromStorage } from "../services/supabaseClient"
 
 function DashboardView() {
     const [ data, setData ] = useState(null)
-    const [ urls, setUrls ] = useState(null)
+    const [ urlImages, setUrlImages ] = useState(null)
 
-    function getUrlImagesFromStorage(arr) {
-        let urlsImages = {}
-        for(let i = 0; i < arr.length; i++) {
-           const imgUrl = supabase.storage.from('cards').getPublicUrl(`public/${arr[i]}`)
-           urlsImages[arr[i]] = imgUrl.data.publicUrl
-        }
-        console.log(urlsImages)
-        setUrls(urlsImages)
+    async function getDataInStorage() {
+        const response = getDataFromDB()
+        const data = await response.then(data => data)
+        createDataGroup(data)
+        setUrlImages(getUrlImagesFromStorage(data.map(item => item.image)))
     }
 
-    useEffect(() => {
-        async function getData() {
-            const response = await fetch('https://gbxzbehqxjynwohsrvsm.supabase.co/rest/v1/cards-data?select=*', {
-                headers: {
-                "apikey": import.meta.env.VITE_API_KEY,
-                "Authorization" : import.meta.env.VITE_AUTHORIZATION
-                }
-            })
-            const cards = await response.json()
+    function createDataGroup(arr) {
+        let groups = []
+        let newGroup = []
 
-            const imgReferences = cards.map((card) => card.image)
-            getUrlImagesFromStorage(imgReferences)
-
-            let dataSet = []
-            let newSet = []
-
-            cards?.forEach((card, index) => {
-                if (newSet.length < 25) {
-                    newSet.push(card)
+        arr?.forEach((item, index) => {
+                if (newGroup.length < 25) {
+                    newGroup.push(item)
                 }
                   
-                if(newSet.length === 25) {
-                    dataSet.push(newSet)
-                    newSet = []
+                if(newGroup.length === 25) {
+                    groups.push(newGroup)
+                    newGroup = []
                 }
                   
-                if(newSet.length >= 1 && cards.length - 1 === index) {
-                    dataSet.push(newSet)
-                    newSet = []
+                if(newGroup.length >= 1 && arr.length - 1 === index) {
+                    groups.push(newGroup)
+                    newGroup = []
                 }
             });
 
-            setData(dataSet)
-        }
-        getData()
+            setData(groups)
+    }
+
+    useEffect(() => {
+        getDataInStorage()
     }, [])
 
     return (
@@ -72,7 +53,7 @@ function DashboardView() {
                                 arr?.map((card) => {
                                     return (
                                         <div key={card.id}>
-                                            <img src={urls[card.image]} alt="" />
+                                            <img src={urlImages[card.image]} alt="" />
                                         </div>                                        
                                     )
                                 })
