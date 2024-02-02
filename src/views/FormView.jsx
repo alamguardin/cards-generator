@@ -1,8 +1,6 @@
 // import core Packages
 import { useState } from 'react'
 // import third party
-import { createClient } from '@supabase/supabase-js'
-import * as htmlToImage from 'html-to-image';
 import download from 'downloadjs';
 import { Toaster, toast } from 'sonner'
 // import components
@@ -16,221 +14,180 @@ import TextareaInput from '../components/TextareaInput';
 import { Download } from '../components/Icons'
 // import const
 import { RARITY_AND_CLASS_OPTIONS, TYPE_CARD_OPTIONS } from '../utils/const';
-
-const API_KEY = import.meta.env.VITE_API_KEY
-const AUTHORIZATION = import.meta.env.VITE_AUTHORIZATION
-const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
-const SUPABASE_POST_URL = import.meta.env.VITE_SUPABASE_POST
-
-// Create supabase client for upload files
-const supabase = createClient(SUPABASE_CLIENT, API_KEY)
+import dataURLtoFile from '../utils/dataurlToFile';
+import { saveImageInStorage, setDataInDB } from '../services/supabaseClient';
+import { nodeToDataurl } from '../utils/nodeToDataurl';
 
 function FormView() {
-  // Card Items state
-  const [ type, setType ] = useState('unit')
-  const [ name, setName ] = useState('')
-  const [ keywords, setKeywords ] = useState('')
-  const [ effect, setEffect ] = useState('')
-  const [ footer, setFooter ] = useState('')
-  const [ attack, setAttack] = useState (0)
-  const [ life, setLife ] = useState(0)
-  const [ manna, setManna ] = useState(0)
-  const [ rarity, setRarity ] = useState('white')
-  const [ classCard, setClassCard] = useState('white')
-  const [ movements, setMovements ] = useState(0)
-  const [ imageReference, setImageReference ] = useState('')
-  // Storage Items state
-  const [ file, setFile ] = useState(null)
-  const [ urlFile, setUrlFile ] = useState(null)
-  const [ previewCard, setPreviewCard ] = useState(null)
+	// Card Items state
+	const [ type, setType ] = useState('unit')
+	const [ name, setName ] = useState('')
+	const [ keywords, setKeywords ] = useState('')
+	const [ effect, setEffect ] = useState('')
+	const [ footer, setFooter ] = useState('')
+	const [ attack, setAttack] = useState (0)
+	const [ life, setLife ] = useState(0)
+	const [ manna, setManna ] = useState(0)
+	const [ rarity, setRarity ] = useState('white')
+	const [ classCard, setClassCard] = useState('white')
+	const [ movements, setMovements ] = useState(0)
+	const [ imageReference, setImageReference ] = useState('')
+	// Storage Items state
+	const [ file, setFile ] = useState(null)
+	const [ urlFile, setUrlFile ] = useState(null)
 
-  /**
-   * Save an image in supabase storage
-   */
-  async function saveImageInStorage() {
-      const { data, error } = await supabase
-        .storage
-        .from('cards')
-        .upload('public/' + imageReference, previewCard, {
-          cacheControl: '3600',
-          upsert: false
-        })
-      console.log(data)
-      console.log(error)
-  } 
+	function handleResetForm() {
+		setType('unit')
+		setName('')
+		setKeywords('')
+		setEffect('')
+		setFooter('')
+		setAttack(0)
+		setFile(0)
+		setManna(0)
+		setRarity('white')
+		setClassCard('white')
+		setMovements(0)
+		setImageReference('')
+		setFile(null)
+		setUrlFile(null)
+	}
 
-  function dataURLtoFile(dataurl, filename) {
-    let arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[arr.length - 1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    const filePreview = new File([u8arr], filename, { type: mime });
-    setPreviewCard(filePreview)
-  }
+	/**
+	 * Save all information card in supabase table
+	 */
+	async function handleSaveDatainDB() {
+		const node = await nodeToDataurl(document.querySelector('.preview .card'))
+		const newImage = dataURLtoFile(node, imageReference)
+		saveImageInStorage(imageReference, newImage)
 
-  /**
-   * Save all information card in supabase table
-   */
-  async function saveDataInDB() {
-    const node = document.querySelector('.preview .card')
+		const data = {
+			type: type,
+			name: name,
+			keywords: keywords,
+			effect: effect,
+			footer: footer,
+			class: classCard,
+			rarity: rarity,
+			manna: manna,
+			attack: attack,
+			life: life,
+			movements: movements,
+			image: imageReference
+		}
+		setDataInDB(data)
+		handleResetForm()
+		toast.success('Tarjeta creada satisfactoriamente.')
+	}
 
-    htmlToImage.toPng(node)
-      .then(function (dataUrl) {
-        dataURLtoFile(dataUrl, imageReference)
-      });
+	/**
+	 * Convert a node to png and download
+	 */
+	async function handleDownload() {
+		const node = await nodeToDataurl(document.querySelector('.preview .card'))
+		download(node, 'card' + Date.now() + '.png')
+	}
 
-    setTimeout(() => {
-      console.log('Waitting')
-    }, 3000);
-    
-    // this is the object to save in DB
-    const data = {
-      type: type,
-      name: name,
-      keywords: keywords,
-      effect: effect,
-      footer: footer,
-      class: classCard,
-      rarity: rarity,
-      manna: manna,
-      attack: attack,
-      life: life,
-      movements: movements,
-      image: imageReference
-    }
+	/**
+	 * Read a file type object for preview
+	 * @param {node} e this is element
+	 */
+	function handleUploadFile(e) {
+		e.preventDefault()
 
-    const response = await fetch(SUPABASE_POST_URL, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": API_KEY,
-        "Authorization" : AUTHORIZATION
-      },
-      body: JSON.stringify(data)
-    })
-    toast.success('Tarjeta creada satisfactoriamente.')
-    saveImageInStorage()
-    const dat = await response.json()
-    console.log(dat)
-  }
+		const reader = new FileReader()
 
-  /**
-   * Convert a node to png and download
-   */
-  function handleDownload() {
-    const node = document.querySelector('.preview .card')
+		reader.onload = ((e) => setUrlFile(e.target.result))
+		reader.readAsDataURL(file);
+		const fileName = 'node'+ Date.now() +'.png'
+		setImageReference(fileName)
+	}
 
-    htmlToImage.toPng(node)
-      .then(function (dataUrl) {
-        download(dataUrl, 'my-node.png')
-      });
-  }
-
-  /**
-   * Read a file type object for preview
-   * @param {node} e this is element
-   */
-  function handleUploadFile(e) {
-    e.preventDefault()
-
-    const reader = new FileReader()
-
-    reader.onload = ((e) => setUrlFile(e.target.result))
-    reader.readAsDataURL(file);
-    const fileName = 'node'+ Date.now() +'.png'
-    setImageReference(fileName)
-  }
-
-  return (
-    <div>
-      <div className="container">
-        <div className="form">
-          <h1 className="title">Crear nueva carta</h1>
-          <SelectInput
-            label="Tipo"
-            options={TYPE_CARD_OPTIONS}
-            onChange={(e) =>  setType(e.target.value)}
-            value={type}
-          ></SelectInput>
-          <TextInput label="Nombre" onChange={(e) => setName(e.target.value)}></TextInput>
-          <TextInput label="Palabras clave" onChange={(e) => setKeywords(e.target.value)}></TextInput>
-          <TextareaInput 
-            label='Efecto'
-            onChange={(e) => setEffect(e.target.value)}
-          ></TextareaInput>
-          <TextInput label="Pie de carta" onChange={(e) => setFooter(e.target.value)}></TextInput>
-          <FileInput 
-            nameFile={ file ? file.name : 'Sin Seleccionar' }
-            onChange={(e) => setFile(e.target.files[0])}
-            onClick={handleUploadFile}
-          ></FileInput>
-          <SelectInput 
-            label="Clase" 
-            options={RARITY_AND_CLASS_OPTIONS}
-            onChange={(e) => setClassCard(e.target.value)}
-            value={classCard}
-          ></SelectInput>
-          <SelectInput
-            label='Rareza'
-            options={RARITY_AND_CLASS_OPTIONS}
-            onChange={(e) => setRarity(e.target.value)}
-            value={rarity}
-          ></SelectInput>
-          <NumberInput 
-            label='Movimientos'
-            value={movements}
-            increase={() => setMovements(movements + 1)}
-            decrease={() => setMovements(movements - 1)}
-          ></NumberInput>
-          <NumberInput 
-            label='Mana' 
-            value={manna} 
-            increase={() => setManna(manna + 1)}
-            decrease={() => setManna(manna - 1)}
-          ></NumberInput>
-          <NumberInput 
-            label='Ataque' 
-            value={attack} 
-            increase={() => setAttack(attack + 1)}
-            decrease={() => setAttack(attack - 1)}
-          ></NumberInput>
-          <NumberInput 
-            label='Vida' 
-            value={life} 
-            increase={() => setLife(life + 1)}
-            decrease={() => setLife(life - 1)}
-          ></NumberInput>
-          <Toaster position="top-center"></Toaster>
-          <button onClick={saveDataInDB}>Crear tarjeta</button>
-        </div>
-        <div className="preview">
-          <Card 
-            type={type}
-            classCard={classCard}
-            rarity={rarity}
-            name={name}
-            image={urlFile}
-            manna={manna}
-            attack={attack}
-            life={life}
-            keywords={keywords}
-            effect={effect}
-            footer={footer}
-            movements={movements}
-          ></Card>
-          <button onClick={handleDownload} className="download-button">
-            <Download></Download>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+	return (
+		<div>
+			<div className="container">
+				<div className="form">
+					<h1 className="title">Crear nueva carta</h1>
+					<SelectInput
+						label="Tipo"
+						options={TYPE_CARD_OPTIONS}
+						onChange={(e) =>  setType(e.target.value)}
+						value={type}
+					></SelectInput>
+					<TextInput label="Nombre" value={name} onChange={(e) => setName(e.target.value)}></TextInput>
+					<TextInput label="Palabras clave" value={keywords} onChange={(e) => setKeywords(e.target.value)}></TextInput>
+					<TextareaInput 
+						label='Efecto'
+						value={effect}
+						onChange={(e) => setEffect(e.target.value)}
+					></TextareaInput>
+					<TextInput label="Pie de carta" value={footer} onChange={(e) => setFooter(e.target.value)}></TextInput>
+					<FileInput 
+						nameFile={ file ? file.name : 'Sin Seleccionar' }
+						onChange={(e) => setFile(e.target.files[0])}
+						onClick={handleUploadFile}
+					></FileInput>
+					<SelectInput 
+						label="Clase" 
+						options={RARITY_AND_CLASS_OPTIONS}
+						onChange={(e) => setClassCard(e.target.value)}
+						value={classCard}
+					></SelectInput>
+					<SelectInput
+						label='Rareza'
+						options={RARITY_AND_CLASS_OPTIONS}
+						onChange={(e) => setRarity(e.target.value)}
+						value={rarity}
+					></SelectInput>
+					<NumberInput 
+						label='Movimientos'
+						value={movements}
+						increase={() => setMovements(movements + 1)}
+						decrease={() => setMovements(movements - 1)}
+					></NumberInput>
+					<NumberInput 
+						label='Mana' 
+						value={manna} 
+						increase={() => setManna(manna + 1)}
+						decrease={() => setManna(manna - 1)}
+					></NumberInput>
+					<NumberInput 
+						label='Ataque' 
+						value={attack} 
+						increase={() => setAttack(attack + 1)}
+						decrease={() => setAttack(attack - 1)}
+					></NumberInput>
+					<NumberInput 
+						label='Vida' 
+						value={life} 
+						increase={() => setLife(life + 1)}
+						decrease={() => setLife(life - 1)}
+					></NumberInput>
+					<Toaster position="top-center"></Toaster>
+					<button onClick={handleSaveDatainDB}>Crear tarjeta</button>
+				</div>
+				<div className="preview">
+					<Card 
+						type={type}
+						classCard={classCard}
+						rarity={rarity}
+						name={name}
+						image={urlFile}
+						manna={manna}
+						attack={attack}
+						life={life}
+						keywords={keywords}
+						effect={effect}
+						footer={footer}
+						movements={movements}
+					></Card>
+					<button onClick={handleDownload} className="download-button">
+						<Download></Download>
+					</button>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export default FormView

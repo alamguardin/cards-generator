@@ -37,7 +37,7 @@ function DashboardView() {
 
     useEffect(() => {
         getDataInStorage()
-    }, [])
+    })
 
     return (
         <div className="dashboard">

@@ -56,7 +56,7 @@ function Card({type, classCard, rarity, name, image, manna, attack, life, keywor
     function addMovements(movements) {
         let content = []
         for(let i = 0; i < movements; i++) {
-            content.push(<img src={threshold[classCard]} width="32"></img>)
+            content.push(<img src={threshold[classCard]} width="32" key={i}></img>)
         }
         return content
     }
