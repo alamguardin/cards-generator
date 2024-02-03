@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { getDataFromDB, getUrlImagesFromStorage } from "../services/supabaseClient"
+import Collection from "../components/Collection"
 
 function DashboardView() {
     const [ data, setData ] = useState(null)
@@ -44,22 +45,12 @@ function DashboardView() {
             {
                 data?.map((arr, index) => {
                     return (
-                    <div key={index} className="collection">
-                        <h1 className="collection-title">Colección #{index + 1}</h1>
-                        <label htmlFor={index} className="collection-label">Open / Close</label>
-                        <input type="checkbox" id={index} className="collection-input"/>
-                        <div className="collection-cards">
-                            {
-                                arr?.map((card) => {
-                                    return (
-                                        <div key={card.id}>
-                                            <img src={urlImages[card.image]} alt="" />
-                                        </div>                                        
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
+                        <Collection
+                            key={index}
+                            arr={arr}
+                            index={index}
+                            urls={urlImages}
+                        ></Collection>
                     )
                 })
             }
