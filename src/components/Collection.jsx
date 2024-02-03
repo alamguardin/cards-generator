@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ArrowDropdown } from "./Icons"
+import { ArrowDropdown, Close, Download } from "./Icons"
 import '../styles/Collection.css'
 
 function Collection({arr, index, urls}) {
@@ -19,6 +19,14 @@ function Collection({arr, index, urls}) {
                     return (
                         <div className="collection-item" key={item.id}>
                             <img src={urls[item.image]} alt="" key={item.id} className="collection-item-image"/>
+                            <div className="collection-item-actions">
+                                <button className="collection-item-download">
+                                    <Download></Download>
+                                </button>
+                                <button className="collection-item-delete">
+                                    <Close></Close>
+                                </button>
+                            </div>
                         </div>
                     )
                 })}

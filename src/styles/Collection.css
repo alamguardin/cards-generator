@@ -23,3 +23,34 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
+
+.collection-item {
+    position: relative;
+}
+
+.collection-item-actions {
+    display: flex;
+    opacity: 0;
+    gap: 0.5rem;
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    transition: .2s all ease;
+}
+
+.collection-item:hover .collection-item-actions {
+    opacity: 1;
+}
+
+.collection-item-actions button {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.collection-item-actions button svg {
+    width: 1rem;
+}
