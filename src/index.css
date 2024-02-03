@@ -29,13 +29,6 @@
     max-width: 1200px;
     margin: auto;
 }
-
-.collection-cards {
-    white-space: wrap;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, );
-}
-
 /* .collection-cards .card {
     transform: scale(0.8);
 } */

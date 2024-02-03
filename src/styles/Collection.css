@@ -1,0 +1,25 @@
+.collection-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.collection-toggle {
+    padding: 0.875rem 1.125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.collection-toggle svg {
+    width: 1.5rem;
+}
+
+.collection-list {
+    display: none;
+}
+
+.collection-list.active {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

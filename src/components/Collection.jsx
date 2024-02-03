@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ArrowDropdown } from "./Icons"
+import '../styles/Collection.css'
 
 function Collection({arr, index, urls}) {
     const [ isOpen, setIsOpen ] = useState(false)
@@ -13,7 +14,7 @@ function Collection({arr, index, urls}) {
                 </button>
                 <button className="collection-download">Descargar colección</button>
             </div>
-            <div className="collection-list">
+            <div className={isOpen ? "collection-list active" : "collection-list"}>
                 {arr?.map(item => {
                     return (
                         <div className="collection-item" key={item.id}>
