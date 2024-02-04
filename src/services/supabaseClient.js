@@ -5,6 +5,7 @@ const AUTHORIZATION = import.meta.env.VITE_AUTHORIZATION
 const SUPABASE_CLIENT = import.meta.env.VITE_SUPABASE_CLIENT
 const SUPABASE_GET_URL = import.meta.env.VITE_SUPABASE_GET
 const SUPABASE_POST_URL = import.meta.env.VITE_SUPABASE_POST
+const SUPABASE_DELETE_URL = import.meta.env.VITE_SUPABASE_DELETE
 
 const supabase = createClient(SUPABASE_CLIENT, API_KEY)
 
@@ -31,6 +32,16 @@ export async function setDataInDB(data) {
             "Authorization" : AUTHORIZATION
         },
         body: JSON.stringify(data)
+    })
+}
+
+export async function deleteIteminDB(id) {
+    await fetch(SUPABASE_DELETE_URL + id, {
+        method: "DELETE",
+        headers: {
+            "apikey": API_KEY,
+            "Authorization": AUTHORIZATION
+        }
     })
 }
 
@@ -65,4 +76,14 @@ export async function downloadImageFromStorage(reference) {
     if(error) console.log(error)
     
     return data
+}
+
+export async function deleteImageInStorage(reference) {
+    const { data, error } = await supabase
+        .storage
+        .from('cards')
+        .remove(['public/' + reference])
+    
+    console.log(data)
+    console.log(error)
 }

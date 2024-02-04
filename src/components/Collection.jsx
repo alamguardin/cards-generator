@@ -1,11 +1,16 @@
 import { useState } from "react"
 import { ArrowDropdown, Close, Download } from "./Icons"
 import '../styles/Collection.css'
-import { downloadImageFromStorage } from "../services/supabaseClient"
+import { deleteImageInStorage, deleteIteminDB, downloadImageFromStorage } from "../services/supabaseClient"
 import download from "downloadjs"
 
 function Collection({arr, index, urls}) {
     const [ isOpen, setIsOpen ] = useState(false)
+
+    async function handleDeleteCard(id, reference) {
+        await deleteIteminDB(id)
+        await deleteImageInStorage(reference)
+    }
 
     async function handleDownloadImage(reference) {
         const imgFile = await downloadImageFromStorage(reference)
@@ -30,7 +35,7 @@ function Collection({arr, index, urls}) {
                                 <button className="collection-item-download" onClick={() => handleDownloadImage(item.image)}>
                                     <Download></Download>
                                 </button>
-                                <button className="collection-item-delete">
+                                <button className="collection-item-delete" onClick={() => handleDeleteCard(item.id, item.image)}>
                                     <Close></Close>
                                 </button>
                             </div>
