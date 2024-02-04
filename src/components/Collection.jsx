@@ -1,9 +1,16 @@
 import { useState } from "react"
 import { ArrowDropdown, Close, Download } from "./Icons"
 import '../styles/Collection.css'
+import { downloadImageFromStorage } from "../services/supabaseClient"
+import download from "downloadjs"
 
 function Collection({arr, index, urls}) {
     const [ isOpen, setIsOpen ] = useState(false)
+
+    async function handleDownloadImage(reference) {
+        const imgFile = await downloadImageFromStorage(reference)
+        download(imgFile, reference)
+    }
 
     return (
         <div className="collection">
@@ -20,7 +27,7 @@ function Collection({arr, index, urls}) {
                         <div className="collection-item" key={item.id}>
                             <img src={urls[item.image]} alt="" key={item.id} className="collection-item-image"/>
                             <div className="collection-item-actions">
-                                <button className="collection-item-download">
+                                <button className="collection-item-download" onClick={() => handleDownloadImage(item.image)}>
                                     <Download></Download>
                                 </button>
                                 <button className="collection-item-delete">

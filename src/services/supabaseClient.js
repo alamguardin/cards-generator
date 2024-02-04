@@ -54,4 +54,15 @@ export async function saveImageInStorage(name, image) {
             upsert: false
         }
     )
-} 
+}
+
+export async function downloadImageFromStorage(reference) {
+    const { data, error } = await supabase
+        .storage
+        .from('cards')
+        .download('public/' + reference)
+    
+    if(error) console.log(error)
+    
+    return data
+}
