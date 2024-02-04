@@ -139,30 +139,36 @@ function FormView() {
 						onChange={(e) => setRarity(e.target.value)}
 						value={rarity}
 					></SelectInput>
+					{ (type === 'unit') &&
 					<NumberInput 
 						label='Movimientos'
 						value={movements}
 						increase={() => setMovements(movements + 1)}
 						decrease={() => setMovements(movements - 1)}
 					></NumberInput>
+					}
 					<NumberInput 
 						label='Mana' 
 						value={manna} 
 						increase={() => setManna(manna + 1)}
 						decrease={() => setManna(manna - 1)}
 					></NumberInput>
+					{ (type === 'unit') &&
 					<NumberInput 
 						label='Ataque' 
 						value={attack} 
 						increase={() => setAttack(attack + 1)}
 						decrease={() => setAttack(attack - 1)}
 					></NumberInput>
+					}
+					{ (type === 'unit' || type === 'structure') &&
 					<NumberInput 
 						label='Vida' 
 						value={life} 
 						increase={() => setLife(life + 1)}
 						decrease={() => setLife(life - 1)}
 					></NumberInput>
+					}
 					<Toaster position="top-center"></Toaster>
 					<button onClick={handleSaveDatainDB}>Crear tarjeta</button>
 				</div>
