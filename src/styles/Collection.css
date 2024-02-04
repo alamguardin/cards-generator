@@ -54,3 +54,13 @@
 .collection-item-actions button svg {
     width: 1rem;
 }
+
+/* Clone collection styles */
+.collection-clone {
+    position: absolute;
+}
+
+.collection-list-clone {
+    display: grid;
+    grid-template-columns: repeat(5, 375px);
+}

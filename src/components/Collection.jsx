@@ -3,9 +3,20 @@ import { ArrowDropdown, Close, Download } from "./Icons"
 import '../styles/Collection.css'
 import { deleteImageInStorage, deleteIteminDB, downloadImageFromStorage } from "../services/supabaseClient"
 import download from "downloadjs"
+import { nodeToDataurl } from "../utils/nodeToDataurl"
 
 function Collection({arr, index, urls}) {
     const [ isOpen, setIsOpen ] = useState(false)
+
+    async function handleDownloadCollection(index) {
+        const originNode = document.querySelector(`.collection #index-${index}`)
+        const clone = originNode.cloneNode(true)
+        clone.classList.replace('collection-list', 'collection-list-clone')
+        document.querySelector(`.collection-image${index}`).appendChild(clone)
+        const newNode = await nodeToDataurl(document.querySelector(`.collection-image${index} .collection-list-clone`))
+        download(newNode, 'coleccion-' + index + '.png')
+        document.querySelector(`.collection-image${index}`).innerHTML = ''
+    }
 
     async function handleDeleteCard(id, reference) {
         await deleteIteminDB(id)
@@ -24,9 +35,9 @@ function Collection({arr, index, urls}) {
                     <span className="collection-toggle-text">Colección #{index + 1}</span>
                     <ArrowDropdown></ArrowDropdown>
                 </button>
-                <button className="collection-download">Descargar colección</button>
+                <button className="collection-download" onClick={() => handleDownloadCollection(index)}>Descargar colección</button>
             </div>
-            <div className={isOpen ? "collection-list active" : "collection-list"}>
+            <div className={isOpen ? "collection-list active" : "collection-list"} id={'index-' + index}>
                 {arr?.map(item => {
                     return (
                         <div className="collection-item" key={item.id}>
@@ -42,6 +53,9 @@ function Collection({arr, index, urls}) {
                         </div>
                     )
                 })}
+            </div>
+            <div className={'collection-clone collection-image'+index} >
+
             </div>
         </div>
     )
