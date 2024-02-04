@@ -16,6 +16,10 @@ import IcAttack from '../assets/ic/ic_attack.png'
 import IcHealth from '../assets/ic/ic_health.png'
 import IcScore from '../assets/ic/ic_score.png'
 import IcHealthStructure from '../assets/ic/ic_health_structure.png'
+import IcSpell from '../assets/ic/ic_spell.png'
+import IcTrap from '../assets/ic/ic_trap.png'
+import IcSpellFast from '../assets/ic/ic_spell_fast.png'
+import IcSpellSlow from '../assets/ic/ic_spell_slow.png'
 
 import ThresholdWhite from '../assets/threshold/Threshold_white.png'
 import ThresholdBlue from '../assets/threshold/Threshold_blue.png'
@@ -68,7 +72,18 @@ function Card({type, classCard, rarity, name, image, manna, attack, life, keywor
             <p className='card-name'>{name}</p>
             <p className='card-keywords'>{keywords}</p>
             <pre><p className='card-effect'>{effect}</p></pre>
-            <p className='card-footer'>{footer}</p>
+            <p className={`card-footer ${(type === 'spell-slow' || type === 'spell-fast') ? 'spell' : ''}`}>
+                { (type === 'spell-slow' || type === 'spell-fast') && 
+                <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="20"/>
+                }
+                {footer}
+                { (type === 'spell-slow' || type === 'spell-fast') && 
+                <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="20"/>
+                }
+            </p>
+            { (type === 'spell-slow' || type === 'spell-fast') &&
+            <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="24" className='card-top-symbol'/>
+            }
             <div className='card-movements'>
                 {addMovements(movements)}
             </div>
@@ -82,7 +97,7 @@ function Card({type, classCard, rarity, name, image, manna, attack, life, keywor
                 <p>{attack}</p>
             </div>
             }
-            { type !== 'spell' &&
+            { (type === 'unit' || type === 'structure') &&
             <div className='card-life'>
                 <img src={type === 'structure' ? IcHealthStructure : IcHealth} alt="" width="62"/>
                 <p>{life}</p>
@@ -91,6 +106,11 @@ function Card({type, classCard, rarity, name, image, manna, attack, life, keywor
             <div className='card-avatar'>
                 <img src={image} alt="" />
             </div>
+            { (type !== 'unit' || type === 'structure') &&
+            <div className='card-symbol'>
+                <img src={type === 'trap' ? IcTrap : IcSpell} alt=""  width="62"/>
+            </div>
+            }
         </div>
     )
 }

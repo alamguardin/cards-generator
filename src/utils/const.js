@@ -9,6 +9,8 @@ export const RARITY_AND_CLASS_OPTIONS = [
 
 export const TYPE_CARD_OPTIONS = [
     {label: 'Unidad', value: 'unit'},
-    {label: 'Hechizo', value: 'spell'},
+    {label: 'Hechizo Lento', value: 'spell-slow'},
+    {label: 'Hechizo Rapido', value: 'spell-fast'},
+    {label: 'Trampa', value: 'trap'},
     {label: 'Estructura', value: 'structure'}
 ]

@@ -113,6 +113,7 @@ button {
 .card-front {
     width: 375px;
     height: 523px;
+    z-index: 1;
 }
 
 .card-rarity {
@@ -120,6 +121,7 @@ button {
     top: 18px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 .card-name, .card-keywords, .card-effect, .card-footer {
@@ -127,6 +129,8 @@ button {
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Times New Roman', Times, serif;
+    color: #ffe58f;
+    z-index: 3;
 }
 
 .card-name {
@@ -152,8 +156,21 @@ button {
 }
 
 .card-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     width: max-content;
     bottom: 25px;
+}
+
+.card-footer.spell {
+    bottom: 24px;
+}
+
+.card-top-symbol {
+    position: absolute;
+    top: 24px;
+    right: 24px;
 }
 
 .card-manna, .card-attack, .card-life {
@@ -161,6 +178,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .card-manna {
@@ -185,6 +203,8 @@ button {
     font-size: 28px;
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
+    color: #ffe58f;
+    z-index: 3;
 }
 
 .card-movements {
@@ -193,6 +213,7 @@ button {
     left: 32px;
     display: flex;
     flex-direction: column;
+    z-index: 2;
 }
 
 .card-avatar {
@@ -211,6 +232,15 @@ button {
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+.card-symbol {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+    z-index: 1;
 }
 
 button.download-button {
