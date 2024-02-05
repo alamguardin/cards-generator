@@ -106,7 +106,7 @@ function Card({type, classCard, rarity, name, image, manna, attack, life, keywor
             <div className='card-avatar'>
                 <img src={image} alt="" />
             </div>
-            { (type !== 'unit' || type === 'structure') &&
+            { (type !== 'unit' && type !== 'structure') &&
             <div className='card-symbol'>
                 <img src={type === 'trap' ? IcTrap : IcSpell} alt=""  width="62"/>
             </div>

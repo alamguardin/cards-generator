@@ -42,18 +42,20 @@ function DashboardView() {
 
     return (
         <div className="dashboard">
-            {
-                data?.map((arr, index) => {
-                    return (
-                        <Collection
-                            key={index}
-                            arr={arr}
-                            index={index}
-                            urls={urlImages}
-                        ></Collection>
-                    )
-                })
-            }
+            <div className="dashboard-container">
+                {
+                    data?.map((arr, index) => {
+                        return (
+                            <Collection
+                                key={index}
+                                arr={arr}
+                                index={index}
+                                urls={urlImages}
+                            ></Collection>
+                        )
+                    })
+                }
+            </div>
         </div>
     )
 }

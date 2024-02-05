@@ -9,19 +9,50 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    background: var(--neutral-900);
+    border: 1px solid var(--neutral-800);
 }
 
 .collection-toggle svg {
     width: 1.5rem;
 }
 
-.collection-list {
+.collection-popup {
     display: none;
+    padding: 1.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--neutral-900);
 }
 
-.collection-list.active {
+.collection-popup.active {
+    display: block;
+    overflow-y: scroll;
+}
+
+.collection-popup-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collection-close svg {
+    width: 1.5rem;
+    fill: var(--neutral-400);
+}
+
+.collection-close svg:hover {
+    fill: var(--neutral-200);
+}
+
+.collection-list {
+    width: 100%;
+    margin-top: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .collection-item {

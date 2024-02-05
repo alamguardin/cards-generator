@@ -107,7 +107,6 @@ function FormView() {
 		<div>
 			<div className="container">
 				<div className="form">
-					<h1 className="title">Crear nueva carta</h1>
 					<SelectInput
 						label="Tipo"
 						options={TYPE_CARD_OPTIONS}
