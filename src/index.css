@@ -1,4 +1,17 @@
 :root {
+    /* --- Pallete Colors --- */
+    /* Neutral Backgrounds */
+    --neutral-950: #0c0a09;
+    --neutral-900: #171717;
+    --neutral-800: #262626;
+    --neutral-700: #262626;
+    /* Neutral Foregrounds */
+    --neutral-200: #e5e5e5;
+    --neutral-400: #a3a3a3;
+    /* Primary Color */
+    --violet-500: #8b5cf6;
+    --violet-400: #a78bfa;
+
     --black:#0a0a0a;
     --gray:#262626;
     --lightgray:#737373;
@@ -6,28 +19,46 @@
 
     /* Defautl Styles */
     font-family: system-ui, 'Segoe UI', 'Open Sans', sans-serif;
-    background: var(--black);
-    color: var(--white);
+    background: var(--neutral-950);
+    color: var(--neutral-200);
 }
 
+/* General Styles */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.container {
-    max-width: 1200px;
-    height: calc(100vh - 80px);
-    margin: auto;
-    margin-top: 3.75rem;
-    display: flex;
-    justify-content: space-around;
+img {
+    max-width: 100%;
 }
 
+.container {
+    max-width: 1200px;
+    width: 90%;
+    height: calc(100vh - 9.375rem);
+    margin: auto;
+    margin-top: 3rem;
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.dashboard-container {
+    margin-top: 4rem;
+}
+/* .collection-cards .card {
+    transform: scale(0.8);
+} */
+
 .form {
-    width: 50%;
-    padding-right: 24px;
+    padding-right: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -48,15 +79,11 @@
     border-radius: 0.5rem;
 }
 
-
-img {
-    max-width: 100%;
-}
-
+/* Inputs styles */
 input, button, select, textarea {
     font-family: system-ui, 'Segoe UI', 'Open Sans', sans-serif;
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: normal;
     outline: none;
     transition: .2s all ease;
 }
@@ -71,20 +98,21 @@ button:active {
 
 input[type="text"], select, textarea {
     padding: 1rem 1.125rem;
-    background-color: var(--black);
-    border: 1px solid var(--gray);
-    color: var(--white);
+    background-color: var(--neutral-900);
+    border: 1px solid var(--neutral-800);
+    color: var(--neutral-200);
     border-radius: 0.5rem;
 }
 
 input[type="text"]:focus, select:focus, textarea:focus {
-    border-color: var(--white);
+    border-color: var(--violet-500);
 }
 
 button {
     padding: 1rem 1.125rem;
-    background: var(--white);
-    color: var(--black);
+    background: var(--violet-500);
+    color: var(--neutral-200);
+    border: 1px solid var(--violet-400);
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -93,6 +121,9 @@ button {
 /* Preview */
 .preview {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Card Styles */
@@ -105,6 +136,7 @@ button {
 .card-front {
     width: 375px;
     height: 523px;
+    z-index: 1;
 }
 
 .card-rarity {
@@ -112,6 +144,7 @@ button {
     top: 18px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 .card-name, .card-keywords, .card-effect, .card-footer {
@@ -119,6 +152,8 @@ button {
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Times New Roman', Times, serif;
+    color: #ffe58f;
+    z-index: 3;
 }
 
 .card-name {
@@ -144,8 +179,21 @@ button {
 }
 
 .card-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     width: max-content;
     bottom: 25px;
+}
+
+.card-footer.spell {
+    bottom: 24px;
+}
+
+.card-top-symbol {
+    position: absolute;
+    top: 24px;
+    right: 24px;
 }
 
 .card-manna, .card-attack, .card-life {
@@ -153,6 +201,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .card-manna {
@@ -177,6 +226,8 @@ button {
     font-size: 28px;
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
+    color: #ffe58f;
+    z-index: 3;
 }
 
 .card-movements {
@@ -185,6 +236,7 @@ button {
     left: 32px;
     display: flex;
     flex-direction: column;
+    z-index: 2;
 }
 
 .card-avatar {
@@ -205,13 +257,22 @@ button {
     object-position: center;
 }
 
+.card-symbol {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+    z-index: 1;
+}
+
 button.download-button {
     width: 3rem;
     height: 3rem;
     padding: 0;
     position: absolute;
-    top: 0;
-    left: -4.5rem;
+    top: 2.8125rem;
+    left: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,0 +1,23 @@
+.navbar {
+    width: max-content;
+    margin: auto;
+    padding: 0.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: var(--neutral-900);
+    border: 1px solid var(--neutral-800);
+    border-radius: 1rem;
+}
+
+.navbar-brand {
+    margin: 0 1rem;
+}
+
+.navbar-item.disabled {
+    background: none;
+    border: none;
+    color: var(--neutral-400);
+}

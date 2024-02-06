@@ -6,9 +6,9 @@
 
 .text-input-label {
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: normal;
 }
 
 .text-input-field::placeholder {
-    color: var(--lightgray);
+    color: var(--neutral-200);
 }

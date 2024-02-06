@@ -1,3 +1,6 @@
+// import styles}
+import '../styles/PreviewCard.css'
+// import assets
 import RarityWhite from '../assets/card-rarity/Rarity_01.png'
 import RarityBlue from '../assets/card-rarity/Rarity_02.png'
 import RarityGreen from '../assets/card-rarity/Rarity_03.png'
@@ -16,10 +19,6 @@ import IcAttack from '../assets/ic/ic_attack.png'
 import IcHealth from '../assets/ic/ic_health.png'
 import IcScore from '../assets/ic/ic_score.png'
 import IcHealthStructure from '../assets/ic/ic_health_structure.png'
-import IcSpell from '../assets/ic/ic_spell.png'
-import IcTrap from '../assets/ic/ic_trap.png'
-import IcSpellFast from '../assets/ic/ic_spell_fast.png'
-import IcSpellSlow from '../assets/ic/ic_spell_slow.png'
 
 import ThresholdWhite from '../assets/threshold/Threshold_white.png'
 import ThresholdBlue from '../assets/threshold/Threshold_blue.png'
@@ -55,64 +54,48 @@ const gemRarity = {
     gold: GemRarityGold
 }
 
-function Card({type, classCard, rarity, name, image, manna, attack, life, keywords, effect, footer, movements}) {
+function PreviewCard({type, classCard, rarity, name, image, manna, attack, life, keywords, effect, footer, movements}) {
 
     function addMovements(movements) {
         let content = []
         for(let i = 0; i < movements; i++) {
-            content.push(<img src={threshold[classCard]} width="32" key={i}></img>)
+            content.push(<img src={threshold[classCard]} width="32"></img>)
         }
         return content
     }
 
     return (
-        <div className='card'>
-            <img src={typeCard[classCard]} alt="" className='card-front'/>
-            <img src={gemRarity[rarity]} alt="" className='card-rarity' width="28"/>
-            <p className='card-name'>{name}</p>
-            <p className='card-keywords'>{keywords}</p>
-            <pre><p className='card-effect'>{effect}</p></pre>
-            <p className={`card-footer ${(type === 'spell-slow' || type === 'spell-fast') ? 'spell' : ''}`}>
-                { (type === 'spell-slow' || type === 'spell-fast') && 
-                <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="20"/>
-                }
-                {footer}
-                { (type === 'spell-slow' || type === 'spell-fast') && 
-                <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="20"/>
-                }
-            </p>
-            { (type === 'spell-slow' || type === 'spell-fast') &&
-            <img src={type === 'spell-slow' ? IcSpellSlow : IcSpellFast} width="24" className='card-top-symbol'/>
-            }
-            <div className='card-movements'>
+        <div className='preview'>
+            <img src={typeCard[classCard]} alt="" className='preview-front'/>
+            <img src={gemRarity[rarity]} alt="" className='preview-rarity' width="28"/>
+            <p className='preview-name'>{name}</p>
+            <p className='preview-keywords'>{keywords}</p>
+            <pre><p className='preview-effect'>{effect}</p></pre>
+            <p className='preview-footer'>{footer}</p>
+            <div className='preview-movements'>
                 {addMovements(movements)}
             </div>
-            <div className='card-manna'>
+            <div className='preview-manna'>
                 <img src={IcScore} alt="" width="62"/>
                 <p>{manna}</p>
             </div>
             { type === 'unit' &&
-            <div className='card-attack'>
+            <div className='preview-attack'>
                 <img src={IcAttack} alt="" width="62"/>
                 <p>{attack}</p>
             </div>
             }
-            { (type === 'unit' || type === 'structure') &&
-            <div className='card-life'>
+            { type !== 'spell' &&
+            <div className='preview-life'>
                 <img src={type === 'structure' ? IcHealthStructure : IcHealth} alt="" width="62"/>
                 <p>{life}</p>
             </div>
             }
-            <div className='card-avatar'>
+            <div className='preview-avatar'>
                 <img src={image} alt="" />
             </div>
-            { (type !== 'unit' && type !== 'structure') &&
-            <div className='card-symbol'>
-                <img src={type === 'trap' ? IcTrap : IcSpell} alt=""  width="62"/>
-            </div>
-            }
         </div>
     )
 }
 
-export default Card
+export default PreviewCard

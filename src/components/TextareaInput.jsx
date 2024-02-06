@@ -1,10 +1,10 @@
 import '../styles/TextareaInput.css'
 
-function TextareaInput({label, onChange}) {
+function TextareaInput({label, onChange, value}) {
     return (
         <div className="textarea-input">
             <label htmlFor="" className="textarea-input-label">{label}</label>
-            <textarea className="textarea-input-field" onChange={onChange} placeholder='Agrega una descripción'></textarea>
+            <textarea value={value} className="textarea-input-field" onChange={onChange} placeholder='Agrega una descripción'></textarea>
         </div>
     ) 
 }

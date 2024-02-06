@@ -1,0 +1,97 @@
+.collection-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.collection-toggle {
+    padding: 0.875rem 1.125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--neutral-900);
+    border: 1px solid var(--neutral-800);
+}
+
+.collection-toggle svg {
+    width: 1.5rem;
+}
+
+.collection-popup {
+    display: none;
+    padding: 1.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--neutral-900);
+}
+
+.collection-popup.active {
+    display: block;
+    overflow-y: scroll;
+}
+
+.collection-popup-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collection-close svg {
+    width: 1.5rem;
+    fill: var(--neutral-400);
+}
+
+.collection-close svg:hover {
+    fill: var(--neutral-200);
+}
+
+.collection-list {
+    width: 100%;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.collection-item {
+    position: relative;
+}
+
+.collection-item-actions {
+    display: flex;
+    opacity: 0;
+    gap: 0.5rem;
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    transition: .2s all ease;
+}
+
+.collection-item:hover .collection-item-actions {
+    opacity: 1;
+}
+
+.collection-item-actions button {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.collection-item-actions button svg {
+    width: 1rem;
+}
+
+/* Clone collection styles */
+.collection-clone {
+    position: absolute;
+}
+
+.collection-list-clone {
+    display: grid;
+    grid-template-columns: repeat(5, 375px);
+}

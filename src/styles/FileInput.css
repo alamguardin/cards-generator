@@ -3,7 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid var(--gray);
+    background: var(--neutral-900);
+    border: 1px solid var(--neutral-800);
     border-radius: 8px;
 }
 
@@ -20,19 +21,20 @@
 .file-input-as-button {
     padding: 1rem 1.125rem;
     font-size: 0.875rem;
-    font-weight: 600;
-    border: 1px solid var(--gray);
+    font-weight: normal;
+    background: var(--neutral-800);
+    border: 1px solid var(--neutral-700);
     border-radius: 0.5rem;
     cursor: pointer;
     transition: .2s all ease;
 }
 
 .file-input-as-button:hover {
-    border-color: var(--white);
+    border-color: var(--violet-500);
 }
 
 .file-input-name {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--lightgray);
+    color: var(--neutral-400);
 }
